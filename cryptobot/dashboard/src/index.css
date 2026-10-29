@@ -1,0 +1,134 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 15 17 23;
+    --foreground: 228 230 235;
+    --card: 22 26 34;
+    --card-foreground: 228 230 235;
+    --border: 42 47 62;
+    --muted: 139 145 160;
+  }
+
+  .dark {
+    --background: 15 17 23;
+    --foreground: 228 230 235;
+    --card: 22 26 34;
+    --card-foreground: 228 230 235;
+    --border: 42 47 62;
+    --muted: 139 145 160;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-dark-bg text-dark-text;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-dark-bg;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-dark-border rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-dark-muted;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-dark-bg disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .btn-primary {
+    @apply btn bg-primary-600 text-white hover:bg-primary-700;
+  }
+
+  .btn-secondary {
+    @apply btn bg-dark-card text-dark-text hover:bg-dark-border border border-dark-border;
+  }
+
+  .btn-danger {
+    @apply btn bg-danger-600 text-white hover:bg-danger-700;
+  }
+
+  .btn-ghost {
+    @apply btn bg-transparent hover:bg-dark-border;
+  }
+
+  .input {
+    @apply w-full rounded-lg bg-dark-card border border-dark-border px-3 py-2 text-sm text-dark-text placeholder-dark-muted focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+  }
+
+  .card {
+    @apply bg-dark-card border border-dark-border rounded-xl p-6;
+  }
+
+  .table-container {
+    @apply overflow-x-auto rounded-lg border border-dark-border;
+  }
+
+  .table {
+    @apply w-full text-sm;
+  }
+
+  .table th {
+    @apply px-4 py-3 text-left font-medium text-dark-muted bg-dark-bg border-b border-dark-border;
+  }
+
+  .table td {
+    @apply px-4 py-3 border-b border-dark-border/50;
+  }
+
+  .table tr:hover td {
+    @apply bg-dark-border/30;
+  }
+
+  .badge {
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+  }
+
+  .badge-success {
+    @apply badge bg-success-500/20 text-success-500;
+  }
+
+  .badge-danger {
+    @apply badge bg-danger-500/20 text-danger-500;
+  }
+
+  .badge-warning {
+    @apply badge bg-yellow-500/20 text-yellow-500;
+  }
+
+  .badge-info {
+    @apply badge bg-primary-500/20 text-primary-500;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}

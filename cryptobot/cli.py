@@ -16,6 +16,7 @@ import sys
 from pathlib import Path
 
 import click
+import numpy as np
 from rich.console import Console
 from rich.table import Table
 

@@ -278,20 +278,19 @@ function ExchangeSettings({ settings, onSave }: { settings: any; onSave: (sectio
 
 function RiskSettings({ settings, onSave }: { settings: any; onSave: (section: string, data: any) => void }) {
   const risk = settings.risk || {}
+  const [formData, setFormData] = useState({
+    max_position_pct: risk.max_position_pct || 0.1,
+    max_portfolio_pct: risk.max_portfolio_pct || 0.8,
+    max_daily_loss_pct: risk.max_daily_loss_pct || 0.05,
+    max_drawdown_pct: risk.max_drawdown_pct || 0.15,
+    max_leverage: risk.max_leverage || 3.0,
+    min_risk_reward: risk.min_risk_reward || 1.5,
+    kelly_fraction: risk.kelly_fraction || 0.25,
+    correlation_limit: risk.correlation_limit || 0.7,
+  })
 
   return (
     <form onSubmit={e => { e.preventDefault(); onSave('risk', formData) }} className="space-y-6 max-w-2xl">
-      const [formData, setFormData] = useState({
-        max_position_pct: risk.max_position_pct || 0.1,
-        max_portfolio_pct: risk.max_portfolio_pct || 0.8,
-        max_daily_loss_pct: risk.max_daily_loss_pct || 0.05,
-        max_drawdown_pct: risk.max_drawdown_pct || 0.15,
-        max_leverage: risk.max_leverage || 3.0,
-        min_risk_reward: risk.min_risk_reward || 1.5,
-        kelly_fraction: risk.kelly_fraction || 0.25,
-        correlation_limit: risk.correlation_limit || 0.7,
-      })
-
       <div className="card">
         <h3 className="text-lg font-semibold text-dark-text mb-4">Position Limits</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -438,16 +437,15 @@ function LLMSettings({ settings, onSave }: { settings: any; onSave: (section: st
 
 function DashboardSettings({ settings, onSave }: { settings: any; onSave: (section: string, data: any) => void }) {
   const dashboard = settings.dashboard || {}
+  const [formData, setFormData] = useState({
+    host: dashboard.host || '0.0.0.0',
+    port: dashboard.port || 8080,
+    ws_port: dashboard.ws_port || 8081,
+    auth_enabled: dashboard.auth_enabled || false,
+  })
 
   return (
     <form onSubmit={e => { e.preventDefault(); onSave('dashboard', formData) }} className="space-y-6 max-w-xl">
-      const [formData, setFormData] = useState({
-        host: dashboard.host || '0.0.0.0',
-        port: dashboard.port || 8080,
-        ws_port: dashboard.ws_port || 8081,
-        auth_enabled: dashboard.auth_enabled || false,
-      })
-
       <div className="card">
         <h3 className="text-lg font-semibold text-dark-text mb-4">Server</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

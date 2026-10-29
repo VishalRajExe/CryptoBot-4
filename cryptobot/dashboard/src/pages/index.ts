@@ -1,0 +1,8 @@
+export { Dashboard } from './Dashboard'
+export { SecurityHub } from './SecurityHub'
+export { StrategyLab } from './StrategyLab'
+export { BacktestPage } from './Backtest'
+export { ResearchPage } from './Research'
+export { PositionsPage } from './Positions'
+export { OrdersPage } from './Orders'
+export { SettingsPage } from './Settings'

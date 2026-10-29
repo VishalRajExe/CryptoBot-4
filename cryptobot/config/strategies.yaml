@@ -1,0 +1,207 @@
+# Strategy templates and parameters
+# Each strategy defines its signal generation logic and default parameters
+
+trend_follow:
+  name: "trend_follow"
+  description: "Multi-timeframe trend following with EMA/SMA crossovers"
+  enabled: true
+  class: "TrendFollowStrategy"
+  parameters:
+    # Fast/slow MA periods
+    fast_period: 10
+    slow_period: 30
+    signal_period: 9
+    # Trend confirmation
+    trend_timeframe: "1h"
+    trend_period: 200
+    # Entry/Exit
+    entry_threshold: 0.001  # Min signal strength
+    exit_on_reverse: true
+    # Risk
+    stop_loss_atr_mult: 2.0
+    take_profit_atr_mult: 4.0
+    trailing_stop: true
+    trailing_atr_mult: 1.5
+  filters:
+    - "volume_above_avg"
+    - "adx_above_20"
+    - "not_in_drawdown"
+
+mean_reversion:
+  name: "mean_reversion"
+  description: "Bollinger Bands + RSI mean reversion on ranging markets"
+  enabled: true
+  class: "MeanReversionStrategy"
+  parameters:
+    bb_period: 20
+    bb_std: 2.0
+    rsi_period: 14
+    rsi_oversold: 30
+    rsi_overbought: 70
+    # Keltner channel for squeeze detection
+    kc_period: 20
+    kc_mult: 1.5
+    # Entry/Exit
+    entry_on_bb_extreme: true
+    exit_on_midline: true
+    # Risk
+    stop_loss_pct: 0.015
+    take_profit_pct: 0.03
+    max_hold_hours: 24
+  filters:
+    - "bb_squeeze"
+    - "low_volatility"
+    - "rsi_divergence"
+
+funding_arbitrage:
+  name: "funding_arbitrage"
+  description: "Capture funding rate differentials across exchanges"
+  enabled: true
+  class: "FundingArbitrageStrategy"
+  parameters:
+    min_funding_diff: 0.0001  # 0.01% min diff
+    max_funding_diff: 0.01    # 1% max diff (avoid manipulation)
+    exchanges: ["binance", "bybit", "okx", "hyperliquid"]
+    symbols: ["BTC", "ETH", "SOL", "ARB"]
+    # Position sizing
+    max_position_per_symbol: 0.05  # 5% of portfolio
+    leverage: 2.0
+    # Risk
+    max_basis_risk: 0.005
+    funding_interval_hours: 8
+    close_before_funding_min: 5
+  filters:
+    - "sufficient_liquidity"
+    - "low_basis_volatility"
+
+basis_trading:
+  name: "basis_trading"
+  description: "Spot-futures basis trading (cash and carry)"
+  enabled: true
+  class: "BasisTradingStrategy"
+  parameters:
+    min_annualized_basis: 0.05  # 5% annualized
+    max_annualized_basis: 0.50  # 50% annualized
+    symbols: ["BTC", "ETH"]
+    # Futures
+    preferred_expiry: "quarterly"
+    max_days_to_expiry: 90
+    # Risk
+    max_leverage: 3.0
+    stop_loss_basis_pct: 0.02
+    hedge_ratio: 1.0
+  filters:
+    - "positive_carry"
+    - "liquid_futures"
+    - "manageable_basis_risk"
+
+momentum:
+  name: "momentum"
+  description: "Cross-sectional momentum across crypto universe"
+  enabled: true
+  class: "MomentumStrategy"
+  parameters:
+    universe_size: 50
+    lookback_days: 30
+    rebalance_days: 7
+    top_n: 10
+    bottom_n: 0  # Long-only by default
+    # Weighting
+    weighting: "vol_target"  # equal, vol_target, rank
+    target_vol: 0.15
+    # Risk
+    max_position_pct: 0.15
+    sector_neutral: false
+    stop_loss_pct: 0.10
+  filters:
+    - "min_volume_1m"
+    - "not_delisting"
+    - "min_market_cap"
+
+grid_trading:
+  name: "grid_trading"
+  description: "Grid trading for ranging markets"
+  enabled: true
+  class: "GridTradingStrategy"
+  parameters:
+    grid_levels: 20
+    grid_spacing_pct: 0.005  # 0.5%
+    grid_range_pct: 0.10     # 10% total range
+    # Order sizing
+    base_order_size: 0.02    # 2% per level
+    max_orders_per_side: 10
+    # Dynamic
+    auto_adjust_range: true
+    trend_filter: true
+    # Risk
+    stop_loss_pct: 0.15
+    take_profit_pct: 0.05
+  filters:
+    - "ranging_market"
+    - "sufficient_volatility"
+
+dca:
+  name: "dca"
+  description: "Dollar-cost averaging with volatility-adjusted sizing"
+  enabled: true
+  class: "DCAStrategy"
+  parameters:
+    interval_hours: 24
+    base_amount_usd: 100
+    # Volatility adjustment
+    vol_lookback_days: 30
+    vol_target: 0.02  # Daily vol target
+    max_mult: 3.0
+    min_mult: 0.3
+    # Symbols
+    symbols: ["BTC", "ETH"]
+    # Risk
+    max_drawdown_pct: 0.20
+    pause_on_drawdown: true
+  filters: []
+
+kronos_forecast:
+  name: "kronos_forecast"
+  description: "Kronos foundation model forecasts for directional signals"
+  enabled: true
+  class: "KronosForecastStrategy"
+  parameters:
+    model_size: "small"  # mini, small, base
+    lookback_bars: 512
+    pred_len: 48
+    # Signal generation
+    threshold_long: 0.002   # 0.2% predicted return
+    threshold_short: -0.002
+    confidence_threshold: 0.6
+    # Ensemble
+    sample_count: 5
+    temperature: 1.0
+    top_p: 0.9
+    # Risk
+    stop_loss_pct: 0.015
+    take_profit_pct: 0.03
+    max_hold_bars: 96
+  filters:
+    - "model_confidence"
+    - "regime_filter"
+
+ensemble:
+  name: "ensemble"
+  description: "Weighted ensemble of multiple strategies"
+  enabled: true
+  class: "EnsembleStrategy"
+  parameters:
+    strategies:
+      - "trend_follow"
+      - "mean_reversion"
+      - "momentum"
+    weights: [0.4, 0.3, 0.3]
+    # Combination
+    method: "weighted_vote"  # weighted_vote, rank_avg, signal_avg
+    min_agreement: 2
+    # Risk
+    max_position_pct: 0.10
+    stop_loss_pct: 0.02
+    take_profit_pct: 0.04
+  filters:
+    - "consensus_check"

@@ -687,10 +687,10 @@ class AdvancedRiskManager:
     def __init__(self, config: dict[str, Any] | None = None):
         self.config = config or {}
 
-        self.pair_locks = PairLockManager(config.get("pair_locks", {}))
-        self.trailing_stops = TrailingStopManager(config.get("trailing_stops", {}))
-        self.triple_barriers = TripleBarrierManager(config.get("triple_barriers", {}))
-        self.circuit_breakers = CircuitBreakerManager(config.get("circuit_breakers", {}))
+        self.pair_locks = PairLockManager(self.config.get("pair_locks", {}))
+        self.trailing_stops = TrailingStopManager(self.config.get("trailing_stops", {}))
+        self.triple_barriers = TripleBarrierManager(self.config.get("triple_barriers", {}))
+        self.circuit_breakers = CircuitBreakerManager(self.config.get("circuit_breakers", {}))
 
         # Position tracking
         self.positions: dict[str, PositionRisk] = {}

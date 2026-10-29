@@ -83,8 +83,8 @@ export function Sidebar({ navigation, icons }: SidebarProps) {
                 Quick Actions
               </h3>
               <QuickActions />
-            )}
-          }
+            </div>
+          )}
         </nav>
 
         {/* Status Bar */}

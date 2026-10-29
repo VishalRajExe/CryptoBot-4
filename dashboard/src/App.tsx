@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { Layout } from '@/components/Layout'
 import { Dashboard } from '@/pages/Dashboard'
@@ -16,12 +17,12 @@ function App() {
   const { setConnected } = useStore()
 
   // Initialize WebSocket connection
-  React.useEffect(() => {
+  useEffect(() => {
     connect()
-    const handleOpen = () => setConnected(true)
-    const handleClose = () => setConnected(false)
-    // WebSocket events handled in hook
-    return () => {}
+    setConnected(true)
+    return () => {
+      setConnected(false)
+    }
   }, [connect, setConnected])
 
   return (

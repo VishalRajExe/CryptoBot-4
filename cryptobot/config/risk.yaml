@@ -1,0 +1,127 @@
+# Risk management configuration
+# Adapted from day-trader-skill risk manager, hummingbot V2 risk controls, and Lean portfolio risk
+
+# Position Sizing
+position_sizing:
+  default_method: "vol_target"  # fixed_fractional, kelly, vol_target, risk_parity
+  fixed_fractional:
+    fraction: 0.02  # 2% per trade
+  kelly:
+    win_rate: 0.55
+    avg_win_loss_ratio: 1.5
+    fraction_cap: 0.25  # Cap at 25% of Kelly
+  vol_target:
+    target_daily_vol: 0.015  # 1.5% daily vol
+    lookback_days: 30
+    min_fraction: 0.005
+    max_fraction: 0.10
+  risk_parity:
+    max_leverage: 2.0
+    min_weight: 0.01
+
+# Portfolio Limits
+portfolio_limits:
+  max_positions: 20
+  max_position_pct: 0.10
+  max_portfolio_pct: 0.80
+  max_sector_pct: 0.30
+  max_correlation: 0.70
+  max_leverage: 3.0
+  max_gross_exposure: 2.0
+  max_net_exposure: 1.0
+
+# Drawdown Controls
+drawdown_controls:
+  max_daily_loss_pct: 0.05
+  max_weekly_loss_pct: 0.10
+  max_monthly_loss_pct: 0.20
+  max_drawdown_pct: 0.15
+  # Recovery
+  reduce_on_drawdown: true
+  reduce_factor: 0.5  # Reduce position size by 50% at max DD
+  pause_on_max_dd: true
+  resume_threshold_pct: 0.05  # Resume when DD < 5%
+
+# Stop Loss & Take Profit
+stops:
+  default_stop_loss_pct: 0.02
+  default_take_profit_pct: 0.04
+  # ATR-based
+  atr_stop_mult: 2.0
+  atr_target_mult: 4.0
+  # Trailing
+  trailing_stop_enabled: true
+  trailing_activation_pct: 0.01
+  trailing_distance_pct: 0.01
+  # Time-based
+  max_hold_bars: 500
+  force_close_eod: false
+
+# Correlation & Concentration
+correlation:
+  lookback_days: 60
+  min_periods: 30
+  max_pair_correlation: 0.70
+  max_portfolio_correlation: 0.50
+  # Cluster-based
+  cluster_method: "hierarchical"
+  max_cluster_exposure: 0.40
+
+# Risk Per Trade
+per_trade:
+  max_risk_pct: 0.02  # 2% of equity per trade
+  min_risk_reward: 1.5
+  max_risk_reward: 10.0
+  # Position sizing from risk
+  risk_per_trade_pct: 0.01  # 1% risk per trade
+
+# Circuit Breakers
+circuit_breakers:
+  # Exchange-level
+  exchange_down_pause: true
+  exchange_error_threshold: 5
+  exchange_cooldown_seconds: 60
+  # Market-level
+  flash_crash_threshold_pct: 0.10  # 10% move in 1 min
+  flash_crash_pause_seconds: 300
+  # Volatility
+  vol_spike_mult: 3.0  # 3x normal vol
+  vol_spike_pause_seconds: 60
+  # Liquidity
+  spread_widen_mult: 5.0
+  min_orderbook_depth_usd: 100000
+
+# Kill Switches
+kill_switches:
+  enabled: true
+  max_daily_loss_usd: 5000
+  max_drawdown_usd: 15000
+  max_open_orders: 100
+  max_api_errors_per_min: 50
+  # Manual
+  manual_kill_key: "${KILL_SWITCH_KEY}"
+
+# PDT & Regulatory (for US equities via Alpaca)
+pdt:
+  enabled: false
+  min_equity: 25000
+  max_day_trades: 3
+  rolling_days: 5
+
+# Margin & Liquidation
+margin:
+  initial_margin_pct: 0.10
+  maintenance_margin_pct: 0.05
+  liquidation_buffer_pct: 0.02
+  auto_reduce_on_margin_call: true
+
+# Reporting
+reporting:
+  risk_report_interval_min: 15
+  var_confidence: 0.99
+  var_horizon_days: 1
+  stress_test_scenarios:
+    - "crypto_crash_2022"
+    - "covid_crash_2020"
+    - "flash_crash_2010"
+    - "custom_50pct_drop"

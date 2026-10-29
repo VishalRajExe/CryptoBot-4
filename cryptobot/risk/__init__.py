@@ -11,7 +11,6 @@ from cryptobot.risk.manager import (
     RiskCheckResult,
     PositionRisk,
 )
-
 from cryptobot.risk.advanced import (
     PairLockManager,
     TrailingStopManager,
@@ -27,7 +26,6 @@ from cryptobot.risk.advanced import (
 )
 
 __all__ = [
-    # Base risk
     "PositionSizer",
     "RiskManager",
     "CircuitBreaker",
@@ -35,7 +33,6 @@ __all__ = [
     "RiskAction",
     "RiskCheckResult",
     "PositionRisk",
-    # Advanced risk
     "PairLockManager",
     "TrailingStopManager",
     "TripleBarrierManager",
