@@ -1,0 +1,98 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+cryptobot/data/logs/
+
+# Data
+data/
+cryptobot/data/
+!cryptobot/data/config/
+
+# Checkpoints
+checkpoints/
+cryptobot/data/checkpoints/
+
+# Models
+models/
+cryptobot/data/models/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Coverage
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+
+# Test
+.pytest_cache/
+.tox/
+
+# Build
+build/
+dist/
+*.egg-info/
+
+# Jupyter
+.ipynb_checkpoints
+
+# Type checking
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# IDE specific
+.vscode/*
+!.vscode/settings.json
+!.vscode/launch.json
+
+# Node modules (dashboard)
+dashboard/node_modules/
+dashboard/dist/
+dashboard/build/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Secrets
+*.pem
+*.key
+*.crt
+
+# Temporary
+tmp/
+temp/
+*.tmp
+
+# IDE profiles
+*.pyproj
+*.sln

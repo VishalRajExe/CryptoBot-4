@@ -1,0 +1,117 @@
+# Exchange-specific configurations
+# All sensitive values should be set via environment variables
+# Format: ${ENV_VAR_NAME} or ${ENV_VAR_NAME:-default_value}
+
+binance:
+  name: "binance"
+  enabled: true
+  api_key: "${BINANCE_API_KEY}"
+  api_secret: "${BINANCE_API_SECRET}"
+  testnet: true
+  rate_limit: 1200
+  ws_enabled: true
+  markets:
+    - "spot"
+    - "linear"
+    - "inverse"
+  options:
+    recv_window: 5000
+    default_type: "future"
+    adjust_for_time_diff: true
+
+bybit:
+  name: "bybit"
+  enabled: true
+  api_key: "${BYBIT_API_KEY}"
+  api_secret: "${BYBIT_API_SECRET}"
+  testnet: true
+  rate_limit: 600
+  ws_enabled: true
+  markets:
+    - "spot"
+    - "linear"
+    - "inverse"
+  options:
+    category: "linear"
+    recv_window: 5000
+
+okx:
+  name: "okx"
+  enabled: true
+  api_key: "${OKX_API_KEY}"
+  api_secret: "${OKX_API_SECRET}"
+  passphrase: "${OKX_PASSPHRASE}"
+  testnet: true
+  rate_limit: 1200
+  ws_enabled: true
+  markets:
+    - "spot"
+    - "linear"
+  options:
+    inst_type: "SWAP"
+    demo_trading: true
+
+hyperliquid:
+  name: "hyperliquid"
+  enabled: true
+  api_key: "${HYPERLIQUID_API_KEY}"
+  api_secret: "${HYPERLIQUID_API_SECRET}"
+  testnet: true
+  rate_limit: 1200
+  ws_enabled: true
+  markets:
+    - "linear"
+  options:
+    vault_address: "${HYPERLIQUID_VAULT_ADDRESS}"
+
+deribit:
+  name: "deribit"
+  enabled: true
+  api_key: "${DERIBIT_API_KEY}"
+  api_secret: "${DERIBIT_API_SECRET}"
+  testnet: true
+  rate_limit: 1200
+  ws_enabled: true
+  markets:
+    - "option"
+    - "linear"
+  options:
+    currency: "BTC"
+
+coinbase:
+  name: "coinbase"
+  enabled: true
+  api_key: "${COINBASE_API_KEY}"
+  api_secret: "${COINBASE_API_SECRET}"
+  passphrase: "${COINBASE_PASSPHRASE}"
+  testnet: true
+  rate_limit: 600
+  ws_enabled: true
+  markets:
+    - "spot"
+
+kraken:
+  name: "kraken"
+  enabled: true
+  api_key: "${KRAKEN_API_KEY}"
+  api_secret: "${KRAKEN_API_SECRET}"
+  testnet: false
+  rate_limit: 600
+  ws_enabled: true
+  markets:
+    - "spot"
+    - "linear"
+
+alpaca:
+  name: "alpaca"
+  enabled: true
+  api_key: "${ALPACA_API_KEY}"
+  api_secret: "${ALPACA_API_SECRET}"
+  testnet: true
+  rate_limit: 600
+  ws_enabled: true
+  markets:
+    - "spot"
+    - "crypto"
+  options:
+    base_url: "https://paper-api.alpaca.markets"
